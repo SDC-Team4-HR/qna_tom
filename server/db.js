@@ -15,8 +15,8 @@ const db = new Client({
 
 db.connect()
   .then(() => db.query('SELECT NOW()'))
-  .then((timestamp) => {
-    console.log(`Successful connection to postgreSQL at ${timestamp}`);
+  .then(() => {
+    console.log(`Successful connection to postgreSQL on port: ${DB_PORT}`);
   })
   .catch((err) => console.log(`Connection err: ${err.stack}`));
 

@@ -4,7 +4,7 @@
   "description": "SDC project, questions & answers microservice",
   "main": "index.js",
   "scripts": {
-    "server-dev": "npx nodemon --watch server server/db.js",
+    "server-dev": "npx nodemon --watch server server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

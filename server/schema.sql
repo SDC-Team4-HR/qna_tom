@@ -90,3 +90,12 @@ CSV HEADER;
 -- BATCH FILE
 -- ---
 -- psql -U tjspitz -d sdc_qna -a -f server/schema.sql
+
+-- ---
+-- NOTES
+-- ---
+-- 1) altered the 'reported' column in 'quesitons' and
+-- 'answers' to have DEFAULT FALSE via CLI
+-- didn't want to recreate tables and repopulate
+-- via editing this file & running batch again
+-- ---

@@ -4,9 +4,34 @@ module.exports = {
   // retireveQs: (productID) => {
 
   // },
-  // retrieveAs: (questionID) => {
-
-  // },
+  retrieveAs: (questionID, query) => (
+    db.query(
+      `SELECT json_build_object(
+        'question', (SELECT id from questions WHERE id=${questionID})::text,
+        'page', ${query.page},
+        'count', ${query.count},
+        'results', (SELECT json_agg(row_to_json(answers))
+          FROM (
+            SELECT
+              a.id AS answer_id,
+              a.answer_body AS body,
+              (SELECT to_char(to_timestamp(a.answer_date/1000), 'YYYY-MM-DD"T"HH24:MI:SS.MSZ')) AS date,
+              a.answerer_name,
+              a.answer_helpfulness AS helpfulness,
+              json_agg(json_strip_nulls(json_build_object(
+                'id', p.id,
+                'url', p.url
+              ))) AS photos
+            FROM answers a
+            LEFT JOIN photos p ON a.id = p.answer_id
+            WHERE question_id=${questionID} AND reported=false
+            GROUP BY a.id
+            LIMIT ${query.count} OFFSET ${query.page}
+          ) answers
+        )
+      )`,
+    )
+  ),
   postQ: (question) => (
     db.query(
       `INSERT INTO questions

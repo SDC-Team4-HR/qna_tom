@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 // sql w/ postgres
 const { Client } = require('pg');
 

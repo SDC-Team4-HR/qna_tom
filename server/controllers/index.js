@@ -8,8 +8,13 @@ module.exports = {
   },
 
   getAnswers: (req, res) => {
-    models.retrieveAs(req.query)
-      .then((list) => res.status(200).send(list.data))
+    req.query.page = req.query.page || 1;
+    req.query.count = req.query.count || 5;
+    models.retrieveAs(req.params.question_id, req.query)
+      .then((response) => {
+        const list = response.rows[0].json_build_object;
+        res.status(200).send(list);
+      })
       .catch((err) => res.status(500).send(err));
   },
 

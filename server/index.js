@@ -1,4 +1,4 @@
-// need: dotenv, express, path, morgan, cors
+/* eslint-disable import/no-extraneous-dependencies */
 require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');

@@ -94,8 +94,10 @@ CSV HEADER;
 -- ---
 -- NOTES
 -- ---
--- 1) altered the 'reported' column in 'quesitons' and
+-- 1) altered the 'reported' column in 'questions' and
 -- 'answers' to have DEFAULT FALSE via CLI
 -- didn't want to recreate tables and repopulate
 -- via editing this file & running batch again
+-- 2) might alter 'date' column to accept transformed timestamps
+-- if performance is an issue
 -- ---

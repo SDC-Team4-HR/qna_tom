@@ -1,9 +1,9 @@
 const db = require('../db');
 
 module.exports = {
-  // retireveQs: (productID) => {
-
-  // },
+  // retrieveQs: (productID, query) => (
+  //
+  // ),
   retrieveAs: (questionID, query) => (
     db.query(
       `SELECT json_build_object(

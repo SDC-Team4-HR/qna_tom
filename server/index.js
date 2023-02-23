@@ -7,11 +7,17 @@ const cors = require('cors');
 const router = require('./routes');
 
 const app = express();
-const { SV_PORT } = process.env;
+const { SV_PORT, LOADER_KEY } = process.env;
 
 app.use(express.json());
 app.use(cors());
 app.use(morgan('dev'));
+
+// loader-io
+app.get(`/${LOADER_KEY}`, (req, res) => {
+  res.status(200).send(LOADER_KEY);
+});
+
 app.use('/', router);
 
 // serve static assets from front-end (if we had one)

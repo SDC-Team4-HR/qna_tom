@@ -4,20 +4,22 @@ const { Client } = require('pg');
 
 // convenience
 const {
-  USER, HOST, DB, DB_PORT,
+  PG_USER, PG_HOST, PG_DB,
+  PG_PORT, PG_PASSWORD,
 } = process.env;
 
 const db = new Client({
-  user: USER,
-  host: HOST,
-  database: DB,
-  port: DB_PORT,
+  user: PG_USER,
+  host: PG_HOST,
+  database: PG_DB,
+  port: PG_PORT,
+  password: PG_PASSWORD,
 });
 
 db.connect()
   .then(() => db.query('SELECT NOW()'))
   .then(() => {
-    console.log(`Successful connection to postgreSQL on port: ${DB_PORT}`);
+    console.log(`Successful connection to postgreSQL on port: ${PG_PORT}`);
   })
   .catch((err) => console.log(`Connection err: ${err.stack}`));
 

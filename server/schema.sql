@@ -16,7 +16,7 @@ CREATE TABLE questions (
   question_date BIGINT,
   asker_name VARCHAR(255),
   asker_email VARCHAR(255),
-  reported BOOLEAN,
+  reported BOOLEAN DEFAULT FALSE,
   question_helpfulness INTEGER DEFAULT 0,
   PRIMARY KEY (id)
 );
@@ -37,7 +37,7 @@ CREATE TABLE answers (
   answer_date BIGINT,
   answerer_name VARCHAR(255),
   answerer_email VARCHAR(255),
-  reported BOOLEAN,
+  reported BOOLEAN DEFAULT FALSE,
   answer_helpfulness INTEGER DEFAULT 0,
   PRIMARY KEY (id)
 );
@@ -71,20 +71,20 @@ ALTER TABLE photos ADD FOREIGN KEY (answer_id) REFERENCES answers (id);
 -- Populate tables
 -- ---
 
-COPY questions
-FROM '/Users/tjspitz/Coding/HackReactor/RFP_2212/rfp2212-sdc-doritos/server/dataImports/questions.csv'
-DELIMITER ','
-CSV HEADER;
+-- COPY questions
+-- FROM '/Users/tjspitz/Coding/HackReactor/RFP_2212/rfp2212-sdc-doritos/server/dataImports/questions.csv'
+-- DELIMITER ','
+-- CSV HEADER;
 
-COPY answers
-FROM '/Users/tjspitz/Coding/HackReactor/RFP_2212/rfp2212-sdc-doritos/server/dataImports/answers.csv'
-DELIMITER ','
-CSV HEADER;
+-- COPY answers
+-- FROM '/Users/tjspitz/Coding/HackReactor/RFP_2212/rfp2212-sdc-doritos/server/dataImports/answers.csv'
+-- DELIMITER ','
+-- CSV HEADER;
 
-COPY photos
-FROM '/Users/tjspitz/Coding/HackReactor/RFP_2212/rfp2212-sdc-doritos/server/dataImports/answers_photos.csv'
-DELIMITER ','
-CSV HEADER;
+-- COPY photos
+-- FROM '/Users/tjspitz/Coding/HackReactor/RFP_2212/rfp2212-sdc-doritos/server/dataImports/answers_photos.csv'
+-- DELIMITER ','
+-- CSV HEADER;
 
 -- ---
 -- BATCH FILE

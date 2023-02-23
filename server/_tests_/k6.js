@@ -2,9 +2,11 @@ import http from 'k6/http';
 import { sleep } from 'k6';
 
 // my code
-const qID = Math.floor(Math.random() * (1000011 - 1) + 1);
-const page = Math.floor(Math.random() * (10 - 1) + 1);
-const count = Math.floor(Math.random() * (20 - 1) + 1);
+const qID = Math.floor(Math.random() * (3518963 - 1) + 1);
+// const page = Math.floor(Math.random() * (10 - 1) + 1);
+// const count = Math.floor(Math.random() * (20 - 1) + 1);
+const page = 0;
+const count = 5;
 
 const getAns = {
   base: 'http://localhost:3000',

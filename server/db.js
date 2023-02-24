@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 // sql w/ postgres
-const { Client } = require('pg');
+// const { Client } = require('pg');
+const { Pool } = require('pg');
 
 // convenience
 const {
@@ -8,12 +9,23 @@ const {
   PG_PORT, PG_PASSWORD,
 } = process.env;
 
-const db = new Client({
+// using CLIENT
+// const db = new Client({
+//   user: PG_USER,
+//   host: PG_HOST,
+//   database: PG_DB,
+//   port: PG_PORT,
+//   password: PG_PASSWORD,
+// });
+
+// using POOL
+const db = new Pool({
   user: PG_USER,
   host: PG_HOST,
   database: PG_DB,
   port: PG_PORT,
   password: PG_PASSWORD,
+  max: 20,
 });
 
 db.connect()

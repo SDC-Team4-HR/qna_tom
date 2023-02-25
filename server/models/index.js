@@ -8,8 +8,8 @@ module.exports = {
     db.query(
       `SELECT json_build_object(
         'question', (SELECT id from questions WHERE id=$1)::text,
-        'page', $3,
-        'count', $2,
+        'page', $2,
+        'count', $3,
         'results', (SELECT json_agg(row_to_json(answers))
           FROM (
             SELECT
@@ -26,7 +26,7 @@ module.exports = {
             LEFT JOIN photos p ON a.id = p.answer_id
             WHERE question_id=$1 AND reported=false
             GROUP BY a.id
-            LIMIT $3 OFFSET $2
+            LIMIT $2 OFFSET $3
           ) answers
         )
       )`,
@@ -45,14 +45,14 @@ module.exports = {
     db.query(
       `INSERT INTO answers
       (question_id, answer_body, answerer_name, answerer_email)
-      VALUES ($1, '$2', '$3', '$4')`,
+      VALUES ($1, $2, '$3, $4)`,
       [questionID, answer.body, answer.name, answer.email],
     )
       .then(() => {
         Promise.all(answer.photos.map((url) => (
           db.query(
             `INSERT INTO photos (answer_id, url)
-            VALUES ((SELECT MAX(id) from answers), '$1')`,
+            VALUES ((SELECT MAX(id) from answers), $1)`,
             [url],
           )
         )));

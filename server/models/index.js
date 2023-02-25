@@ -15,7 +15,7 @@ module.exports = {
             SELECT
               a.id AS answer_id,
               a.answer_body AS body,
-              (SELECT to_char(to_timestamp(a.answer_date/1000), 'YYYY-MM-DD"T"HH24:MI:SS.MSZ')) AS date,
+              (SELECT to_char(a.answer_date, 'YYYY-MM-DD"T"HH24:MI:SS.MSZ')) AS date,
               a.answerer_name,
               a.answer_helpfulness AS helpfulness,
               json_agg(json_strip_nulls(json_build_object(

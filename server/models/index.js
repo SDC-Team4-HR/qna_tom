@@ -26,7 +26,7 @@ module.exports = {
             LEFT JOIN photos p ON a.id = p.answer_id
             WHERE question_id=$1 AND reported=false
             GROUP BY a.id
-            LIMIT $2 OFFSET $3
+            LIMIT $3 OFFSET $2
           ) answers
         )
       )`,
@@ -45,7 +45,7 @@ module.exports = {
     db.query(
       `INSERT INTO answers
       (question_id, answer_body, answerer_name, answerer_email)
-      VALUES ($1, $2, '$3, $4)`,
+      VALUES ($1, $2, $3, $4)`,
       [questionID, answer.body, answer.name, answer.email],
     )
       .then(() => {

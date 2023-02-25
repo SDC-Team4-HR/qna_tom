@@ -15,7 +15,7 @@ module.exports = {
             SELECT
               a.id AS answer_id,
               a.answer_body AS body,
-              (SELECT to_char(to_timestamp(a.answer_date/1000), 'YYYY-MM-DD"T"HH24:MI:SS.MSZ')) AS date,
+              SELECT (to_char(a.answer_date/1000), 'YYYY-MM-DD"T"HH24:MI:SS.MSZ')) AS date,
               a.answerer_name,
               a.answer_helpfulness AS helpfulness,
               json_agg(json_strip_nulls(json_build_object(
@@ -35,15 +35,15 @@ module.exports = {
   postQ: (question) => (
     db.query(
       `INSERT INTO questions
-      (product_id, question_body, question_date, asker_name, asker_email)
-      VALUES (${question.product_id}, '${question.body}', ${Date.now()}, '${question.name}', '${question.email}')`,
+      (product_id, question_body, asker_name, asker_email)
+      VALUES (${question.product_id}, '${question.body}', '${question.name}', '${question.email}')`,
     )
   ),
   postA: (questionID, answer) => (
     db.query(
       `INSERT INTO answers
-      (question_id, answer_body, answer_date, answerer_name, answerer_email)
-      VALUES (${questionID}, '${answer.body}', ${Date.now()}, '${answer.name}', '${answer.email}')`,
+      (question_id, answer_body, answerer_name, answerer_email)
+      VALUES (${questionID}, '${answer.body}', '${answer.name}', '${answer.email}')`,
     )
       .then(() => {
         Promise.all(answer.photos.map((url) => (

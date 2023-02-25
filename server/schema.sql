@@ -87,6 +87,26 @@ ALTER TABLE photos ADD FOREIGN KEY (answer_id) REFERENCES answers (id);
 -- CSV HEADER;
 
 -- ---
+-- TRANSFORM DATES
+-- ---
+-- ALTER TABLE questions
+-- ALTER COLUMN question_date TYPE timestamp USING (
+--   to_timestamp(question_date/1000)
+-- );
+
+-- ALTER TABLE answers
+-- ALTER COLUMN answer_date TYPE timestamp USING (
+--   to_timestamp(answer_date/1000)
+-- );
+
+-- ALTER TABLE questions
+-- ALTER COLUMN question_date SET DEFAULT CURRENT_TIMESTAMP;
+
+-- ALTER TABLE answers
+-- ALTER COLUMN answer_date SET DEFAULT CURRENT_TIMESTAMP;
+-- ---
+
+-- ---
 -- BATCH FILE
 -- ---
 -- psql -U tjspitz -d sdc_qna -a -f server/schema.sql

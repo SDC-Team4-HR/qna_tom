@@ -7,9 +7,9 @@ module.exports = {
   retrieveAs: (questionID, query) => (
     db.query(
       `SELECT json_build_object(
-        'question', (SELECT id from questions WHERE id=$1)::text,
-        'page', $2,
-        'count', $3,
+        'question', (SELECT id from questions WHERE id=${questionID})::text,
+        'page', ${query.page},
+        'count', ${query.count},
         'results', (SELECT json_agg(row_to_json(answers))
           FROM (
             SELECT
@@ -24,36 +24,32 @@ module.exports = {
               ))) AS photos
             FROM answers a
             LEFT JOIN photos p ON a.id = p.answer_id
-            WHERE question_id=$1 AND reported=false
+            WHERE question_id=${questionID} AND reported=false
             GROUP BY a.id
-            LIMIT $3 OFFSET $2
+            LIMIT ${query.count} OFFSET ${query.page}
           ) answers
         )
       )`,
-      [questionID, query.page, query.count],
     )
   ),
   postQ: (question) => (
     db.query(
       `INSERT INTO questions
       (product_id, question_body, asker_name, asker_email)
-      VALUES ($1, '$2', '$3', '$4')`,
-      [question.product_id, question.body, question.name, question.email],
+      VALUES (${question.product_id}, '${question.body}', '${question.name}', '${question.email}')`,
     )
   ),
   postA: (questionID, answer) => (
     db.query(
       `INSERT INTO answers
       (question_id, answer_body, answerer_name, answerer_email)
-      VALUES ($1, $2, $3, $4)`,
-      [questionID, answer.body, answer.name, answer.email],
+      VALUES (${questionID}, '${answer.body}', '${answer.name}', '${answer.email}')`,
     )
       .then(() => {
         Promise.all(answer.photos.map((url) => (
           db.query(
             `INSERT INTO photos (answer_id, url)
-            VALUES ((SELECT MAX(id) from answers), $1)`,
-            [url],
+            VALUES ((SELECT MAX(id) from answers), '${url}')`,
           )
         )));
       })
@@ -63,32 +59,28 @@ module.exports = {
     db.query(
       `UPDATE questions
       SET question_helpfulness = question_helpfulness + 1
-      WHERE id = $1`,
-      [questionID],
+      WHERE id = ${questionID}`,
     )
   ),
   putQReported: (questionID) => (
     db.query(
       `UPDATE questions
       SET reported = 1
-      WHERE id = $1`,
-      [questionID],
+      WHERE id = ${questionID}`,
     )
   ),
   putAHelpful: (answerID) => (
     db.query(
       `UPDATE answers
       SET answer_helpfulness = answer_helpfulness + 1
-      WHERE id = $1`,
-      [answerID],
+      WHERE id = ${answerID}`,
     )
   ),
   putAReported: (answerID) => (
     db.query(
       `UPDATE questions
       SET reported = 1
-      WHERE id = $1`,
-      [answerID],
+      WHERE id = ${answerID}`,
     )
   ),
 };
